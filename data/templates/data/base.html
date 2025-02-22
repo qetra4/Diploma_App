@@ -13,23 +13,23 @@
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
 
     {% if title %}
-        <title>Блог клуба {{ title }}</title>
+        <title>Главная страница{{ title }}</title>
     {% else %}
-        <title>Блог клуба Python Bytes</title>
+        <title>Приложение Кравчено Яны</title>
     {% endif %}
 </head>
 <body>
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-blue fixed-top">
             <div class="container">
-                <a class="navbar-brand mr-4" href="{% url 'data-home' %}"><i class='bx bxs-rocket bx-tada-hover'></i> Python Bytes</a>
+                <a class="navbar-brand mr-4" href="{% url 'data-home' %}"><i class='bx bxs-rocket bx-tada-hover'></i>BestDiploma</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'data-home' %}">Главная</a>
-                        <a class="nav-item nav-link" href="{% url 'data-about' %}">О клубе</a>
+                        <a class="nav-item nav-link" href="{% url 'data-about' %}">О дипломе</a>
                     </div>
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
@@ -60,22 +60,11 @@
                 {% block content %}{% endblock %}
             </div>
             <div class="col-md-4">
-                <div class="content-section">
-                    <h3>Разделы</h3>
-                    <p class='text-muted'>новости и события
-                        <ul class="list-group">
-                            <li class="list-group-item list-group-item-light">Новые записи</li>
-                            <li class="list-group-item list-group-item-light">Объявления</li>
-                            <li class="list-group-item list-group-item-light">Соревнования</li>
-                            <li class="list-group-item list-group-item-light">Встречи участников</li>
-                        </ul>
-                    </p>
-                </div>
             </div>
         </div>
     </main>
     <footer class="text-center bg-dark">
-        <p><a href="{% url 'data-home' %}">© Клуб Python Bytes 2022</a></p>
+        <p><a href="{% url 'data-home' %}">© The Best Diploma App by Yana Kravchenko 2025</a></p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

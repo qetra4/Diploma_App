@@ -1,21 +1,12 @@
 {% extends "data/base.html" %}
 {% block content %}
-<h1>Welcome to the Home Page</h1>
+<h1>Добро пожаловать!</h1>
+<h3>Вы находитесь на главной странице фитнес-приложения, призванного упростить жизнь пользователей умных носимых устройств :)</h3>
 {% if user.is_authenticated %}
-<p>Click the button below to view your data:</p>
-    <a href="{% url 'user_data' user.id %}" class="btn btn-primary">View My Data</a>
+<p>Кликните, чтобы посмотреть информацию о себе </p>
+    <a href="{% url 'user_data' user.id %}" class="btn btn-primary">Хочу посмотреть!</a>
 {% endif %}
 {% if not user.is_authenticated %}
-<p>Login, please.</p>
+<p>Авторизуйтесь, пожалуйста</p>
 {% endif %}
-    {% for user in users %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ user.username }}</a>
-              <small class="text-muted">Role: {{ user.role }}</small>
-            </div>  
-          </div>
-        </article>
-    {% endfor %}
 {% endblock content %}

@@ -10,9 +10,9 @@ class Weight(models.Model):
     time = models.DateTimeField(default=timezone.now)
 
     def save(self, *args, **kwargs):
-        if not self.id:  # Проверяем, что объект новый
-            now = timezone.now()  # Текущая дата и время
-            fixed_time = time(23, 0)  # Фиксированное время 23:00
+        if not self.id:
+            now = timezone.now()
+            fixed_time = time(23, 0) 
             self.time = timezone.make_aware(timezone.datetime.combine(now.date(), fixed_time))
         super().save(*args, **kwargs)
     def __str__(self):
