@@ -1,4 +1,4 @@
-from .models import Pulse, Steps, Weight, Distance, Calories
+from .models import Pulse, Steps, Distance, Calories
 from django.contrib.auth.models import User
 import csv
 from datetime import datetime
@@ -13,7 +13,6 @@ def user_data(request, user_id):
     user = request.user
     pulses = Pulse.objects.filter(user=user)
     steps = Steps.objects.filter(user=user)
-    weights = Weight.objects.filter(user=user)
     distances = Distance.objects.filter(user=user)
     calories = Calories.objects.filter(user=user)
 
@@ -21,7 +20,6 @@ def user_data(request, user_id):
         'user': user,
         'pulses': pulses,
         'steps': steps,
-        'weights': weights,
         'distances': distances,
         'calories': calories,
     }

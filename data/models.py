@@ -27,16 +27,6 @@ class Steps(models.Model):
         return f"{self.user.username} - {self.value} at {self.time}"
 
 
-class Weight(models.Model):
-    id = models.IntegerField(primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    value = models.IntegerField(default=0)
-    time = models.DateTimeField()
-
-    def __str__(self):
-        return f"{self.user.username} - {self.value} at {self.time}"
-
-
 class Distance(models.Model):
     id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
