@@ -1,9 +1,11 @@
 from .models import Pulse, Steps, Weight, Distance, Calories
 from django.contrib.auth.models import User
 import csv
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CSVUploadForm
+from django.contrib import messages
 
 
 @login_required
@@ -43,26 +45,48 @@ def about(request):
 
 @login_required
 def upload_csv(request):
+    print("the func upload is used")
     if request.method == 'POST':
         form = CSVUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            handle_uploaded_file(request.FILES.get('pulse_file'), Pulse, request)
-            handle_uploaded_file(request.FILES.get('steps_file'), Steps, request)
-            handle_uploaded_file(request.FILES.get('weight_file'), Weight, request)
-            handle_uploaded_file(request.FILES.get('distance_file'), Distance, request)
-            handle_uploaded_file(request.FILES.get('calories_file'), Calories, request)
+            if 'pulse_file' in request.FILES:
+                handle_uploaded_file(request.FILES['pulse_file'], Pulse, request)
+                print("Pulse file processed")
+            if 'steps_file' in request.FILES:
+                handle_uploaded_file(request.FILES['steps_file'], Steps, request)
+                print("Steps file processed")
+            if 'distance_file' in request.FILES:
+                handle_uploaded_file(request.FILES['distance_file'], Distance, request)
+                print("Distance file processed")
+            if 'calories_file' in request.FILES:
+                handle_uploaded_file(request.FILES['calories_file'], Calories, request)
+                print("Calories file processed")
+            messages.success(request, 'Файлы успешно загружены!')
             return redirect('user_data', user_id=request.user.id)
     else:
         form = CSVUploadForm()
-    return render(request, 'upload_csv.html', {'form': form})
+        
 
 def handle_uploaded_file(file, model, request):
     if file:
+        print("File is present")  # Для отладки
         decoded_file = file.read().decode('utf-8').splitlines()
+        print("Decoded file:", decoded_file)  # Для отладки
         reader = csv.DictReader(decoded_file)
         for row in reader:
-            model.objects.create(
-                user=request.user,
-                value=row['Value'],
-                time=row['Time']
-            )
+            try:
+                print("Processing row:", row)  # Для отладки
+                # Преобразуем value в float
+                row['value'] = float(row['value'])
+                model.objects.create(
+                    id=row['id'],
+                    user=request.user,
+                    value=row['value'],  # Теперь это число, а не строка
+                    time=datetime.strptime(row['time'], '%Y-%m-%d %H:%M')
+                )
+                print("Saved data:", row)  # Для отладки
+            except Exception as e:
+                print("Error saving data:", e)  # Для отладки
+    else:
+        print("No file uploaded")  # Для отладки
+        

@@ -28,13 +28,6 @@
                     <td>{{ step.time }}</td>
                 </tr>
             {% endfor %}
-            {% for weight in weights %}
-                <tr>
-                    <td>Weight</td>
-                    <td>{{ weight.value }}</td>
-                    <td>{{ weight.time }}</td>
-                </tr>
-            {% endfor %}
             {% for distance in distances %}
                 <tr>
                     <td>Distance</td>
@@ -51,5 +44,40 @@
             {% endfor %}
         </tbody>
     </table>
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    
+    {% endif %}
+    <h1>Upload CSV Files</h1>   
+    <form method="post" action="{% url 'upload_csv' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>
+            <label for="id_pulse_file">Pulse File:</label>
+            <input type="file" name="pulse_file" id="id_pulse_file">
+        </p>
+        <p>
+            <label for="id_steps_file">Steps File:</label>
+            <input type="file" name="steps_file" id="id_steps_file">
+        </p>
+        <p>
+            <label for="id_weight_file">Weight File:</label>
+            <input type="file" name="weight_file" id="id_weight_file">
+        </p>
+        <p>
+            <label for="id_distance_file">Distance File:</label>
+            <input type="file" name="distance_file" id="id_distance_file">
+        </p>
+        <p>
+            <label for="id_calories_file">Calories File:</label>
+            <input type="file" name="calories_file" id="id_calories_file">
+        </p>
+        <button onclick="window.location.href='{% url 'upload_csv' %}'">Upload</button>
+    </form>
 </body>
 </html>
