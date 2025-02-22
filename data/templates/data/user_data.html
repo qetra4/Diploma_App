@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Data</title>
+</head>
+<body>
+    <h1>User Data for {{ user.username }}</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Value</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pulse in pulses %}
+                <tr>
+                    <td>Pulse</td>
+                    <td>{{ pulse.value }}</td>
+                    <td>{{ pulse.time }}</td>
+                </tr>
+            {% endfor %}
+            {% for step in steps %}
+                <tr>
+                    <td>Steps</td>
+                    <td>{{ step.value }}</td>
+                    <td>{{ step.time }}</td>
+                </tr>
+            {% endfor %}
+            {% for weight in weights %}
+                <tr>
+                    <td>Weight</td>
+                    <td>{{ weight.value }}</td>
+                    <td>{{ weight.time }}</td>
+                </tr>
+            {% endfor %}
+            {% for distance in distances %}
+                <tr>
+                    <td>Distance</td>
+                    <td>{{ distance.value }}</td>
+                    <td>{{ distance.time }}</td>
+                </tr>
+            {% endfor %}
+            {% for calorie in calories %}
+                <tr>
+                    <td>Calories</td>
+                    <td>{{ calorie.value }}</td>
+                    <td>{{ calorie.time }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,23 +1,15 @@
 {% extends "data/base.html" %}
 {% block content %}
+<h1>Welcome to the Home Page</h1>
+<p>Click the button below to view your data:</p>
+<a href="{% url 'user_data' user.id %}" class="btn btn-primary">View My Data</a>
     {% for user in users %}
         <article class="media content-section">
           <div class="media-body">
             <div class="article-metadata">
               <a class="mr-2" href="#">{{ user.username }}</a>
               <small class="text-muted">Role: {{ user.role }}</small>
-            </div>
-            <h2>Health Data</h2>
-            {% for health_data in user.healthdata_set.all %}
-                <div>
-                    <p><strong>Date:</strong> {{ health_data.date|date:"F d, Y" }}</p>
-                    <p><strong>Pulse:</strong> {{ health_data.pulse }}</p>
-                    <p><strong>Steps:</strong> {{ health_data.steps }}</p>
-                    <p><strong>Distance:</strong> {{ health_data.distance }} m</p>
-                    <p><strong>Weight:</strong> {{ health_data.weight }} kg</p>
-                    <p><strong>Calories:</strong> {{ health_data.calories }}</p>
-                </div>
-            {% endfor %}
+            </div>  
           </div>
         </article>
     {% endfor %}
