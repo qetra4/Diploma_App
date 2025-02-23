@@ -203,6 +203,7 @@ def pulse_histogram(request):
     elif filter_type == 'month':
         start_date = now - timedelta(days=30)
     else:
+        
         start_date = None  # Все записи
 
     # Фильтруем данные по пользователю и временному диапазону
