@@ -92,27 +92,3 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 
-footer {
- position: sticky!important;
- top: 100%;
- padding-top:25px;
- padding-bottom:25px;
- border-top:1px solid #ddd;
-}
-
-footer p {
- margin:2px;
- text-align:center;
- padding:0 40px;
- color:#fff;
- font-size:12px;
-}
-
-footer a{
-  color:#777
-}
-
-footer a:hover {
-  color:#777;
-  text-decoration: none;
-}

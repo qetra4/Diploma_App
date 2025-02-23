@@ -45,15 +45,21 @@
             padding: 1.3vw 0;
         }
 
-        .footer {
-            background-color: rgb(177, 61, 197); /* Темно-лавандовый для футера */
-            font-size: large;
-            color: white;
-            padding: 1.3vw 0;
+        body > footer.footer {
+            background-color: rgb(177, 61, 197) !important;
+            font-size: 1em !important;
+            color: white !important;
+            padding: 1.3vw 0 !important;
             text-align: right !important;
-            width: 100%;
+            width: 100% !important;
+            padding-right: 10vw !important;
+            padding-top: 2vw !important;
+            display: flex; /* Включаем Flexbox */
+            align-items: center; /* Выравниваем текст по вертикали по центру */
+            justify-content: flex-end; /* Выравниваем текст по правому краю */
+            height: 60px; /* Задаем высоту футера (можно изменить под ваши нужды) */
         }
-
+        
         .centered-text {
             text-align: center;
             margin-top: 1.3vw;
