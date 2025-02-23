@@ -23,22 +23,22 @@
         .btn-lavender {
             background-color: #c270db; /* Средне-лавандовый */
             color: white;
-            border:#9947b2;
+            border:#f4f1f5;
         }
         .btn-lavender:hover {
             background-color: #b73fd5; /* Более насыщенный лавандовый */
             color: white;
-            border:#9947b2;
+            border:#ece8ed;
         }
         .btn-danger {
             background-color: #c270db; /* Средне-лавандовый */
             color: white;
-            border:#9947b2;
+            border:#f7f7f7;
         }
         .btn-danger:hover {
             background-color: #b73fd5; /* Более насыщенный лавандовый */
             color: white;
-            border:#9947b2;
+            border:hsl(0, 0%, 95%);
         }        
         .navbar-dark.bg-blue {
             background-color: #b85bc2 !important; /* Темно-лавандовый для навбара */
@@ -82,6 +82,48 @@
 
         .home-dobro {
             margin-top: 10vh !important; 
+        }
+
+        .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start; /* Выравниваем по верхнему краю */
+        }
+
+        .container {
+        max-width: 80vw !important;
+        }
+
+        .btn-filter {
+            border-radius: 20% !important;
+        }
+
+        .user_data_tr {
+            background-color: #a85cc2 !important;
+        }
+
+        .btn-lavender {
+        background-color: #c270db; /* Средне-лавандовый */
+        color: white;
+        border: 1px solid #9947b2;
+        border-radius: 4px; /* Скругление, как у кнопки "Удалить данные" */
+        padding: 8px 20px; /* Внутренние отступы */
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Плавный переход */
+        }
+
+        .btn-lavender:hover {
+            background-color: #b73fd5; /* Более насыщенный лавандовый */
+            color: white;
+            transform: translateY(-1px); /* Легкий подъем при наведении */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень при наведении */
+        }
+
+        /* Стиль для активной кнопки */
+        .btn-lavender.active {
+            background-color: #a85cc2; /* Более блеклый лавандовый */
+            border-color: #8a4aa3; /* Темный лавандовый для границы */
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Тень внутрь для эффекта "зажатости" */
+            transform: translateY(0); /* Убираем подъем */
         }
 
     </style>
