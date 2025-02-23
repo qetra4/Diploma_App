@@ -14,48 +14,105 @@
                     </button>
                 </form>
 
-                <!-- Таблица с данными -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="bg-lavender text-white">
-                            <tr>
-                                <th>Метрика</th>
-                                <th>Значение</th>
-                                <th>Время</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for pulse in pulses %}
+                <!-- Таблица с данными о пульсе -->
+                {% if pulses %}
+                    <h2 class="text-lavender mt-5">Данные о пульсе</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-lavender text-white">
                                 <tr>
-                                    <td>Пульс</td>
-                                    <td>{{ pulse.value }}</td>
-                                    <td>{{ pulse.time }}</td>
+                                    <th>Значение</th>
+                                    <th>Время</th>
                                 </tr>
-                            {% endfor %}
-                            {% for step in steps %}
+                            </thead>
+                            <tbody>
+                                {% for pulse in pulses %}
+                                    <tr>
+                                        <td>{{ pulse.value }}</td>
+                                        <td>{{ pulse.time }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Нет данных о пульсе.</p>
+                {% endif %}
+
+                <!-- Таблица с данными о шагах -->
+                {% if steps %}
+                    <h2 class="text-lavender mt-5">Данные о шагах</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-lavender text-white">
                                 <tr>
-                                    <td>Шаги</td>
-                                    <td>{{ step.value }}</td>
-                                    <td>{{ step.time }}</td>
+                                    <th>Значение</th>
+                                    <th>Время</th>
                                 </tr>
-                            {% endfor %}
-                            {% for distance in distances %}
+                            </thead>
+                            <tbody>
+                                {% for step in steps %}
+                                    <tr>
+                                        <td>{{ step.value }}</td>
+                                        <td>{{ step.time }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Нет данных о шагах.</p>
+                {% endif %}
+
+                <!-- Таблица с данными о дистанции -->
+                {% if distances %}
+                    <h2 class="text-lavender mt-5">Данные о дистанции</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-lavender text-white">
                                 <tr>
-                                    <td>Дистанция</td>
-                                    <td>{{ distance.value }}</td>
-                                    <td>{{ distance.time }}</td>
+                                    <th>Значение</th>
+                                    <th>Время</th>
                                 </tr>
-                            {% endfor %}
-                            {% for calorie in calories %}
+                            </thead>
+                            <tbody>
+                                {% for distance in distances %}
+                                    <tr>
+                                        <td>{{ distance.value }}</td>
+                                        <td>{{ distance.time }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Нет данных о дистанции.</p>
+                {% endif %}
+
+                <!-- Таблица с данными о калориях -->
+                {% if calories %}
+                    <h2 class="text-lavender mt-5">Данные о калориях</h2>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead class="bg-lavender text-white">
                                 <tr>
-                                    <td>Калории</td>
-                                    <td>{{ calorie.value }}</td>
-                                    <td>{{ calorie.time }}</td>
+                                    <th>Значение</th>
+                                    <th>Время</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                {% for calorie in calories %}
+                                    <tr>
+                                        <td>{{ calorie.value }}</td>
+                                        <td>{{ calorie.time }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Нет данных о калориях.</p>
+                {% endif %}
 
                 <!-- Сообщения -->
                 {% if messages %}
