@@ -7,28 +7,38 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .forms import CSVUploadForm
 from django.contrib import messages
-import matplotlib.pyplot as plt
 import io, base64, csv
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+
+def home(request):
+    context = {
+        'posts': User.objects.all()
+    }
+    return render(request, 'data/home.html', context)
+
+
+def home_view(request):
+    return render(request, 'home.html', {'user': request.user})
+
+
+def about(request):
+    return render(request, 'data/about.html', {'title': 'О приложении'})
 
 
 @login_required
 def user_data(request, user_id):
-    # Получаем текущего пользователя
     user = request.user
-
-    # Получаем параметр фильтра из запроса
-    filter_type = request.GET.get('filter', 'all')  # По умолчанию 'all'
-
-    # Определяем временной диапазон для фильтрации
+    filter_type = request.GET.get('filter', 'all')
     now = timezone.now()
     if filter_type == 'week':
         start_date = now - timedelta(days=7)
     elif filter_type == 'month':
         start_date = now - timedelta(days=30)
     else:
-        start_date = None  # Все записи
-
-    # Фильтруем данные по пользователю и временному диапазону
+        start_date = None 
     pulses = Pulse.objects.filter(user=user)
     steps = Steps.objects.filter(user=user)
     distances = Distance.objects.filter(user=user)
@@ -40,10 +50,8 @@ def user_data(request, user_id):
         distances = distances.filter(time__gte=start_date)
         calories = calories.filter(time__gte=start_date)
 
-    # Получаем параметр графика из запроса
     graph_type = request.GET.get('graph')
 
-    # Генерация графика (если выбран)
     chart = None
     chart_title = None
     if graph_type == 'pulse_histogram':
@@ -68,9 +76,6 @@ def user_data(request, user_id):
         chart = create_histogram(data, 'Гистограмма шагов по дням', 'Дни', 'Шаги')
         chart_title = 'Гистограмма шагов по дням'
 
-    # Добавьте остальные условия для других графиков
-
-    # Контекст для шаблона
     context = {
         'pulses': pulses,
         'steps': steps,
@@ -81,21 +86,6 @@ def user_data(request, user_id):
         'chart_title': chart_title,
     }
     return render(request, 'user_data.html', context)
-
-
-def home(request):
-    context = {
-        'posts': User.objects.all()
-    }
-    return render(request, 'data/home.html', context)
-
-
-def home_view(request):
-    return render(request, 'home.html', {'user': request.user})
-
-
-def about(request):
-    return render(request, 'data/about.html', {'title': 'О приложении'})
 
 
 @login_required
@@ -190,47 +180,120 @@ def create_pie_chart(data, title):
 
 
 def pulse_histogram(request):
-    # Получаем текущего пользователя
     user = request.user
-
-    # Получаем параметр фильтра из запроса (например, 'all', 'week', 'month')
-    filter_type = request.GET.get('filter', 'all')  # По умолчанию 'all'
-
-    # Определяем временной диапазон для фильтрации
+    filter_type = request.GET.get('filter', 'all')
     now = timezone.now()
     if filter_type == 'week':
         start_date = now - timedelta(days=7)
     elif filter_type == 'month':
         start_date = now - timedelta(days=30)
     else:
-        
-        start_date = None  # Все записи
+        start_date = None
 
-    # Фильтруем данные по пользователю и временному диапазону
     pulses = Pulse.objects.filter(user=user)
     if start_date:
         pulses = pulses.filter(time__gte=start_date)
 
-    # Группируем данные по дням
     data = {}
     for pulse in pulses:
-        date = pulse.time.strftime('%Y-%m-%d')  # Форматируем дату как строку
+        date = pulse.time.strftime('%Y-%m-%d')
         if date in data:
-            data[date] += pulse.value  # Суммируем значения за день
+            data[date] += pulse.value
         else:
             data[date] = pulse.value
-
-    # Создаем гистограмму
     chart = create_histogram(data, 'Гистограмма пульса по дням', 'Дни', 'Пульс')
 
-    # Передаем график в шаблон
+    if start_date:
+        pulses = pulses.filter(time__gte=start_date)
     return render(request, 'data/chart.html', {'chart': chart, 'title': 'Гистограмма пульса по дням'})
 
-# View для гистограммы шагов по дням
+
 def steps_histogram(request):
-    data = {'2023-10-01': 5000, '2023-10-02': 7000, '2023-10-03': 6000}
-    chart = create_histogram(data, 'Гистограмма шагов по дням', 'Дни', 'Шаги')
-    return render(request, 'data/chart.html', {'chart': chart})
+    user = request.user
+    filter_type = request.GET.get('filter', 'all')
+    now = timezone.now()
+    if filter_type == 'week':
+        start_date = now - timedelta(days=7)
+    elif filter_type == 'month':
+        start_date = now - timedelta(days=30)
+    else:
+        start_date = None
+
+    steps = Steps.objects.filter(user=user)
+    if start_date:
+        steps = steps.filter(time__gte=start_date)
+
+    data = {}
+    for step in steps:
+        date = step.time.strftime('%Y-%m-%d')
+        if date in data:
+            data[date] += step.value
+        else:
+            data[date] = step.value
+    chart = create_histogram(data, 'Гистограмма пройденных шагов по дням', 'Дни', 'Шаги')
+
+    if start_date:
+        steps = steps.filter(time__gte=start_date)
+    return render(request, 'data/chart.html', {'chart': chart, 'title': 'Гистограмма шагов по дням'})
+
+
+def calories_histogram(request):
+    user = request.user
+    filter_type = request.GET.get('filter', 'all')
+    now = timezone.now()
+    if filter_type == 'week':
+        start_date = now - timedelta(days=7)
+    elif filter_type == 'month':
+        start_date = now - timedelta(days=30)
+    else:
+        start_date = None
+
+    calories = Calories.objects.filter(user=user)
+    if start_date:
+        calories = calories.filter(time__gte=start_date)
+
+    data = {}
+    for calorie in calories:
+        date = calorie.time.strftime('%Y-%m-%d')
+        if date in data:
+            data[date] += calorie.value
+        else:
+            data[date] = calorie.value
+    chart = create_histogram(data, 'Гистограмма сожженных калорий по дням', 'Дни', 'Калории')
+
+    if start_date:
+        calories = calories.filter(time__gte=start_date)
+    return render(request, 'data/chart.html', {'chart': chart, 'title': 'Гистограмма калорий по дням'})
+
+
+def distance_histogram(request):
+    user = request.user
+    filter_type = request.GET.get('filter', 'all')
+    now = timezone.now()
+    if filter_type == 'week':
+        start_date = now - timedelta(days=7)
+    elif filter_type == 'month':
+        start_date = now - timedelta(days=30)
+    else:
+        start_date = None
+
+    distance = Distance.objects.filter(user=user)
+    if start_date:
+        distance= distance.filter(time__gte=start_date)
+
+    data = {}
+    for dist in distance:
+        date = dist.time.strftime('%Y-%m-%d')
+        if date in data:
+            data[date] += dist.value
+        else:
+            data[date] = dist.value
+    chart = create_histogram(data, 'Гистограмма пройденной дситанции в метрах по дням', 'Дни', 'Метры')
+
+    if start_date:
+        distance = distance.filter(time__gte=start_date)
+    return render(request, 'data/chart.html', {'chart': chart, 'title': 'Гистограмма дистанции по дням'})
+
 
 # View для круговой диаграммы пульса
 def pulse_pie_chart(request):
@@ -244,18 +307,6 @@ def steps_pie_chart(request):
     chart = create_pie_chart(data, 'Круговая диаграмма шагов')
     return render(request, 'data/chart.html', {'chart': chart})
 
-def calories_histogram(request):
-    # Пример данных (замените на данные из вашей модели)
-    data = {'2023-10-01': 70, '2023-10-02': 75, '2023-10-03': 80}
-    chart = create_histogram(data, 'Гистограмма пульса по дням', 'Дни', 'Пульс')
-    return render(request, 'data/chart.html', {'chart': chart})
-
-# View для гистограммы шагов по дням
-def distance_histogram(request):
-    data = {'2023-10-01': 5000, '2023-10-02': 7000, '2023-10-03': 6000}
-    chart = create_histogram(data, 'Гистограмма шагов по дням', 'Дни', 'Шаги')
-    return render(request, 'data/chart.html', {'chart': chart})
-
 # View для круговой диаграммы пульса
 def calories_pie_chart(request):
     data = {'Низкий': 30, 'Средний': 50, 'Высокий': 20}
@@ -267,3 +318,4 @@ def distance_pie_chart(request):
     data = {'Низкий': 40, 'Средний': 40, 'Высокий': 20}
     chart = create_pie_chart(data, 'Круговая диаграмма шагов')
     return render(request, 'data/chart.html', {'chart': chart})
+

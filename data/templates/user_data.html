@@ -20,30 +20,30 @@
     
         <h5 class="text-lavender mt-5 mb-3">Графики</h5>
         <div class="d-flex flex-column">
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'pulse_histogram' %}'">
+            <a href="{% url 'pulse_histogram' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Гистограмма пульса по дням
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'steps_histogram' %}'">
+            </a>
+            <a href="{% url 'steps_histogram' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Гистограмма шагов по дням
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'pulse_pie_chart' %}'">
+            </a>
+            <a href="{% url 'pulse_pie_chart' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Круговая диаграмма пульса
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'steps_pie_chart' %}'">
+            </a>
+            <a href="{% url 'steps_pie_chart' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Круговая диаграмма шагов
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'calories_histogram' %}'">
+            </a>
+            <a href="{% url 'calories_histogram' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Гистограмма калорий по дням
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'distance_histogram' %}'">
+            </a>
+            <a href="{% url 'distance_histogram' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Гистограмма дистанции по дням
-            </button>
-            <button class="btn btn-lavender mb-2" onclick="window.location.href='{% url 'calories_pie_chart' %}'">
+            </a>
+            <a href="{% url 'calories_pie_chart' %}?filter={{ filter_type }}" class="btn btn-lavender mb-2">
                 Круговая диаграмма калорий
-            </button>
-            <button class="btn btn-lavender" onclick="window.location.href='{% url 'distance_pie_chart' %}'">
+            </a>
+            <a href="{% url 'distance_pie_chart' %}?filter={{ filter_type }}" class="btn btn-lavender">
                 Круговая диаграмма дистанции
-            </button>
+            </a>
         </div>
     </div>
 
