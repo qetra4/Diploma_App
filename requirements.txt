@@ -2,6 +2,5 @@ Django==4.2.7
 psycopg2==2.9.9 
 python-decouple==3.8 
 matplotlib==3.8.0 
-crispy-bootstrap4
 django-crispy-forms==2.1
 crispy-bootstrap4==2023.10
