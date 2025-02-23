@@ -1,40 +1,44 @@
 {% extends "data/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div class="content-section">
-      <div class="media">
-        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
-        <div class="media-body">
-          <h2 class="account-heading">{{ user.username }}</h2>
-          <p class="text-secondary">{{ user.email }}</p>
+    <div class="content-section bg-lavender p-4 rounded shadow mt-4 mb-10">  <!-- Добавлены отступы сверху и снизу -->
+        <div class="media">
+            <div class="media-body mr-3">  <!-- Добавлен отступ слева для текста -->
+                <h2 class="account-heading text-lavender">{{ user.username }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
         </div>
-      </div>
-    <!-- Вывод сообщений -->
-    {% if messages %}
-        <div class="messages">
-            {% for message in messages %}
-                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                    {{ message }}
-                </div>
+
+        <!-- Вывод сообщений -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} mt-3">  <!-- Добавлен отступ сверху -->
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <!-- Форма для ввода веса -->
+        <h2 class="text-lavender mt-4">Введите свой вес</h2>
+        <form method="post" action="{% url 'update_weight' %}" class="mt-3">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="weight" class="text-lavender">Вес (кг):</label>
+                <input type="number" step="0.1" name="weight" id="weight" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-lavender">Сохранить</button>
+        </form>
+
+        <!-- Отображение текущего веса -->
+        <h2 class="text-lavender mt-4">История записей о Вашем весе</h2>
+        <ul class="list-group mt-3">
+            {% for entry in weight_history %}
+                <li class="list-group-item bg-light text-lavender">
+                    {{ entry.value }} kg on {{ entry.time }}
+                </li>
             {% endfor %}
-        </div>
-    {% endif %}
-
-    <!-- Форма для ввода веса -->
-    <h2>Enter Your Weight</h2>
-    <form method="post" action="{% url 'update_weight' %}">
-        {% csrf_token %}
-        <label for="weight">Weight (kg):</label>
-        <input type="number" step="0.1" name="weight" id="weight" required>
-        <button type="submit">Save Weight</button>
-    </form>
-
-    <!-- Отображение текущего веса -->
-    <h2>Your Weight History</h2>
-    <ul>
-        {% for entry in weight_history %}
-            <li>{{ entry.value }} kg on {{ entry.time }}</li>
-        {% endfor %}
-    </ul>
+        </ul>
     </div>
 {% endblock content %}

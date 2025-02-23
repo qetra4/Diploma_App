@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'data/main.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
@@ -17,12 +16,67 @@
     {% else %}
         <title>Приложение Кравчено Яны</title>
     {% endif %}
+
+    <style>
+        /* Лавандовые оттенки */
+        .bg-lavender {
+            background-color: #feddfe !important; /* Лавандовый */
+        }
+        .text-lavender {
+            color: #9947b2 !important; /* Темно-лавандовый */
+        }
+        .btn-lavender {
+            background-color: #c270db; /* Средне-лавандовый */
+            color: white;
+        }
+        .btn-lavender:hover {
+            background-color: #b73fd5; /* Более насыщенный лавандовый */
+            color: white;
+        }
+        .navbar-dark.bg-blue {
+            background-color: #b85bc2 !important; /* Темно-лавандовый для навбара */
+            padding: 1.3vw 0;
+        }
+        .footer {
+            background-color: rgb(177, 61, 197); /* Темно-лавандовый для футера */
+            font-size: medium;
+            color: white;
+            padding: 1.3vw 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .centered-text {
+            text-align: center;
+            margin-top: 1.3vw;
+        }
+
+        html, body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            flex: 1;
+        }
+
+        .main-content {
+            margin-top: 3vh !important; 
+            margin-bottom: 5vh !important; 
+            flex: 1; 
+        }
+
+        .home-dobro {
+            margin-top: 10vh !important; 
+        }
+
+    </style>
 </head>
 <body>
     <header class="site-header">
         <nav class="navbar navbar-expand-md navbar-dark bg-blue fixed-top">
             <div class="container">
-                <a class="navbar-brand mr-4" href="{% url 'data-home' %}"><i class='bx bxs-rocket bx-tada-hover'></i>BestDiploma</a>
+                <a class="navbar-brand mr-4" href="{% url 'data-home' %}"><i class='bx bxs-rocket bx-tada-hover'></i> BestDiploma</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -47,9 +101,9 @@
             </div>
         </nav>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container main-content">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12 centered-text">
                 {% if messages %}
                     {% for message in messages %}
                         <div class="alert alert-{{ message.tags }}">
@@ -59,12 +113,10 @@
                 {% endif %}
                 {% block content %}{% endblock %}
             </div>
-            <div class="col-md-4">
-            </div>
         </div>
     </main>
-    <footer class="text-center bg-dark">
-        <p><a href="{% url 'data-home' %}">© The Best Diploma App by Yana Kravchenko 2025</a></p>
+    <footer class="footer">
+        <p><a href="{% url 'data-home' %}" class="text-white">© The Best Diploma App by Yana Kravchenko 2025</a></p>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
