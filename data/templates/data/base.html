@@ -10,12 +10,7 @@
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'data/main.css' %}">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-
-    {% if title %}
-        <title>Главная страница{{ title }}</title>
-    {% else %}
-        <title>Приложение Кравчено Яны</title>
-    {% endif %}
+    <title>Приложение Кравчено Яны</title>
 
     <style>
         /* Лавандовые оттенки */
@@ -28,21 +23,34 @@
         .btn-lavender {
             background-color: #c270db; /* Средне-лавандовый */
             color: white;
+            border:#9947b2;
         }
         .btn-lavender:hover {
             background-color: #b73fd5; /* Более насыщенный лавандовый */
             color: white;
+            border:#9947b2;
         }
+        .btn-danger {
+            background-color: #c270db; /* Средне-лавандовый */
+            color: white;
+            border:#9947b2;
+        }
+        .btn-danger:hover {
+            background-color: #b73fd5; /* Более насыщенный лавандовый */
+            color: white;
+            border:#9947b2;
+        }        
         .navbar-dark.bg-blue {
             background-color: #b85bc2 !important; /* Темно-лавандовый для навбара */
             padding: 1.3vw 0;
         }
+
         .footer {
             background-color: rgb(177, 61, 197); /* Темно-лавандовый для футера */
-            font-size: medium;
+            font-size: large;
             color: white;
             padding: 1.3vw 0;
-            text-align: center;
+            text-align: right !important;
             width: 100%;
         }
 

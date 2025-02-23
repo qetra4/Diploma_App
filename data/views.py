@@ -87,4 +87,15 @@ def handle_uploaded_file(file, model, request):
                 print("Error saving data:", e)  # Для отладки
     else:
         print("No file uploaded")  # Для отладки
+
+def delete_data(request):
+    if request.method == 'POST':
+        # Удаляем все данные из всех моделей
+        Pulse.objects.all().delete()
+        Steps.objects.all().delete()
+        Distance.objects.all().delete()
+        Calories.objects.all().delete()
         
+        messages.success(request, 'Все данные успешно удалены.')
+    return redirect('user_data', user_id=request.user.id)  # Перенаправляем на главную страницу или другую страницу       
+    

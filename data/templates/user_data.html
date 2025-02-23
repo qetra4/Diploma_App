@@ -6,6 +6,14 @@
                 <!-- Заголовок -->
                 <h1 class="display-4 text-lavender mb-4">Данные пользователя: {{ user.username }}</h1>
 
+                <!-- Кнопка удаления данных -->
+                <form method="post" action="{% url 'delete_data' %}" class="mb-4">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить все данные?');">
+                        Удалить все данные
+                    </button>
+                </form>
+
                 <!-- Таблица с данными -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover">
@@ -71,10 +79,6 @@
                     <div class="form-group">
                         <label for="id_steps_file" class="text-lavender">Файл с данными о шагах:</label>
                         <input type="file" name="steps_file" id="id_steps_file" class="form-control-file">
-                    </div>
-                    <div class="form-group">
-                        <label for="id_weight_file" class="text-lavender">Файл с данными о весе:</label>
-                        <input type="file" name="weight_file" id="id_weight_file" class="form-control-file">
                     </div>
                     <div class="form-group">
                         <label for="id_distance_file" class="text-lavender">Файл с данными о дистанции:</label>
