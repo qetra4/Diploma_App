@@ -28,7 +28,7 @@ def user_data(request, user_id):
     else:
         start_date = None  # Все записи
 
-    # Фильтрация данных
+    # Фильтруем данные по пользователю и временному диапазону
     pulses = Pulse.objects.filter(user=user)
     steps = Steps.objects.filter(user=user)
     distances = Distance.objects.filter(user=user)
@@ -40,12 +40,45 @@ def user_data(request, user_id):
         distances = distances.filter(time__gte=start_date)
         calories = calories.filter(time__gte=start_date)
 
+    # Получаем параметр графика из запроса
+    graph_type = request.GET.get('graph')
+
+    # Генерация графика (если выбран)
+    chart = None
+    chart_title = None
+    if graph_type == 'pulse_histogram':
+        data = {}
+        for pulse in pulses:
+            date = pulse.time.strftime('%Y-%m-%d')
+            if date in data:
+                data[date] += pulse.value
+            else:
+                data[date] = pulse.value
+        chart = create_histogram(data, 'Гистограмма пульса по дням', 'Дни', 'Пульс')
+        chart_title = 'Гистограмма пульса по дням'
+
+    elif graph_type == 'steps_histogram':
+        data = {}
+        for step in steps:
+            date = step.time.strftime('%Y-%m-%d')
+            if date in data:
+                data[date] += step.value
+            else:
+                data[date] = step.value
+        chart = create_histogram(data, 'Гистограмма шагов по дням', 'Дни', 'Шаги')
+        chart_title = 'Гистограмма шагов по дням'
+
+    # Добавьте остальные условия для других графиков
+
+    # Контекст для шаблона
     context = {
         'pulses': pulses,
         'steps': steps,
         'distances': distances,
         'calories': calories,
-        'filter_type': filter_type,  # Передаем выбранный фильтр в шаблон
+        'filter_type': filter_type,
+        'chart': chart,
+        'chart_title': chart_title,
     }
     return render(request, 'user_data.html', context)
 
@@ -155,12 +188,42 @@ def create_pie_chart(data, title):
     buf.seek(0)
     return base64.b64encode(buf.read()).decode('utf-8')
 
-# View для гистограммы пульса по дням
+
 def pulse_histogram(request):
-    # Пример данных (замените на данные из вашей модели)
-    data = {'2023-10-01': 70, '2023-10-02': 75, '2023-10-03': 80}
+    # Получаем текущего пользователя
+    user = request.user
+
+    # Получаем параметр фильтра из запроса (например, 'all', 'week', 'month')
+    filter_type = request.GET.get('filter', 'all')  # По умолчанию 'all'
+
+    # Определяем временной диапазон для фильтрации
+    now = timezone.now()
+    if filter_type == 'week':
+        start_date = now - timedelta(days=7)
+    elif filter_type == 'month':
+        start_date = now - timedelta(days=30)
+    else:
+        start_date = None  # Все записи
+
+    # Фильтруем данные по пользователю и временному диапазону
+    pulses = Pulse.objects.filter(user=user)
+    if start_date:
+        pulses = pulses.filter(time__gte=start_date)
+
+    # Группируем данные по дням
+    data = {}
+    for pulse in pulses:
+        date = pulse.time.strftime('%Y-%m-%d')  # Форматируем дату как строку
+        if date in data:
+            data[date] += pulse.value  # Суммируем значения за день
+        else:
+            data[date] = pulse.value
+
+    # Создаем гистограмму
     chart = create_histogram(data, 'Гистограмма пульса по дням', 'Дни', 'Пульс')
-    return render(request, 'data/chart.html', {'chart': chart})
+
+    # Передаем график в шаблон
+    return render(request, 'data/chart.html', {'chart': chart, 'title': 'Гистограмма пульса по дням'})
 
 # View для гистограммы шагов по дням
 def steps_histogram(request):
