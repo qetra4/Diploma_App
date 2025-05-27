@@ -4,3 +4,5 @@ python-decouple==3.8
 matplotlib==3.8.0 
 django-crispy-forms==2.3
 crispy-bootstrap4==2024.10
+gunicorn
+

@@ -40,8 +40,19 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
 
 volumes:
   postgres_data:
   static_volume:
   rabbitmq_data:
+  media_volume:

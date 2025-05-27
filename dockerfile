@@ -23,4 +23,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Команда для запуска (позже заменим на gunicorn)
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["gunicorn", "The_Best_Diploma_App.wsgi:application", "-b", "0.0.0.0:8000"]
