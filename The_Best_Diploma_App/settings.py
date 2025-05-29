@@ -84,9 +84,9 @@ CELERY_BROKER_URL = 'amqp://guest:guest@rabbitmq:5672//'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['POSTGRES_DB'],
-        'USER': os.environ['POSTGRES_USER'],
-        'PASSWORD': os.environ['POSTGRES_PASSWORD'],
+        'NAME': os.environ.get('POSTGRES_DB', 'default_db_name'),
+        'USER': os.environ.get('POSTGRES_USER', 'default_db_user'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'default_db_password'),
         'HOST': 'db',
         'PORT': '5432',
         'OPTIONS': {
@@ -152,3 +152,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'data-home'
 LOGIN_URL = 'login'
+
+CELERY_BROKER_URL = "amqp://guest:guest@rabbitmq:5672//"
+CELERY_RESULT_BACKEND = "rpc://"
+CELERY_TASK_SERIALIZER = "json"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_WORKER_STATE_DB = "/tmp/celery_worker.db"
